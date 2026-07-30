@@ -1,7 +1,11 @@
+import React from 'react';
 import { Link } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 import "./Navbar.css";
 
 function Navbar() {
+  const { admin, logout } = useAuth();
+  
   return (
     <header className="navbar">
       <div className="logo">
@@ -14,9 +18,6 @@ function Navbar() {
         <Link to="/cart">Cart</Link>
         <Link to="/orders">Orders</Link>
         <Link to="/contact">Contact</Link>
-        <Link to="/login" className="login-btn">
-          Login
-        </Link>
       </nav>
     </header>
   );
