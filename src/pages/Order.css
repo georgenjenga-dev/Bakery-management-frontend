@@ -357,3 +357,177 @@
     border-top: 1px solid #f5f0eb;
   }
 }
+
+/* Payment Method Selector */
+.payment-method-selector {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.method-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid #d7ccc8;
+  border-radius: 8px;
+  background: white;
+  color: #5d4037;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.method-btn:hover {
+  border-color: #5d4037;
+  background: #faf7f2;
+}
+
+.method-btn.method-active {
+  border-color: #2e7d32;
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* Checkout Wrapper */
+.checkout-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* WhatsApp Enquiry Button */
+.whatsapp-enquiry-wrapper {
+  margin-top: 1.25rem;
+  text-align: center;
+}
+
+.btn-whatsapp-enquiry,
+.btn-whatsapp-send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #25d36e;
+  color: #3e2723;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.btn-whatsapp-enquiry:hover,
+.btn-whatsapp-send:hover {
+  background-color: #128c7e;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.whatsapp-icon {
+  font-size: 1.1rem;
+}
+
+/* Paybill View */
+.paybill-view h3 {
+  color: #3e2723;
+  font-size: 1.15rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f5f0eb;
+}
+
+.paybill-details {
+  background: #faf7f2;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.paybill-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f5f0eb;
+}
+
+.paybill-info-row:last-child {
+  border-bottom: none;
+  font-weight: 700;
+}
+
+.paybill-label {
+  color: #5d4037;
+  font-size: 0.9rem;
+}
+
+.paybill-value {
+  color: #3e2723;
+  font-weight: 700;
+  font-family: monospace;
+  background: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+}
+
+/* Paybill Instructions */
+.paybill-instructions {
+  background: white;
+  border-left: 4px solid #2e7d32;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.paybill-instructions h4 {
+  color: #3e2723;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+.paybill-instructions ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.paybill-instructions li {
+  margin-bottom: 0.4rem;
+  color: #5d4037;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Paybill Note */
+.paybill-note {
+  background: #fff3e0;
+  border: 1px solid #ffe0b2;
+  border-radius: 8px;
+  padding: 0.875rem;
+  margin-bottom: 1.25rem;
+  color: #e65100;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Paybill Actions */
+.paybill-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Responsive adjustments for order page */
+@media (max-width: 600px) {
+  .payment-method-selector {
+    flex-direction: column;
+  }
+
+  .paybill-actions {
+    flex-direction: column;
+  }
+}
