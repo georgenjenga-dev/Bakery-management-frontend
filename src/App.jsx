@@ -14,6 +14,8 @@ import Register from "./pages/Register";
 import Contact from "./pages/Contact";
 import Dashboard from "./pages/Dashboard";
 
+
+
 function App() {
   return (
     <CartProvider>
