@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./Products.css";
+import { useCart } from '../context/cartcontext';
 
 function Products() {
+  const { addToCart } = useCart();
   const [products] = useState([
     {
       id: 1,
@@ -16,7 +18,7 @@ function Products() {
       name: "Croissant",
       price: 4.5,
       image:
-        "https://images.unsplash.com/photo-1555507036-ab794f4afe5b?w=600",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoAfVdKKxy4oIF9yOGG7mYNm7URUao4-uDeTO4uj2Syw&s=10",
       description: "Freshly baked buttery croissant with a flaky crust."
     },
     {
@@ -70,7 +72,9 @@ function Products() {
 
               <h3>${product.price.toFixed(2)}</h3>
 
-              <button>Add to Cart</button>
+              <button type="button" onClick={() => addToCart(product)}>
+                Add to Cart
+              </button>
             </div>
           </div>
         ))}
