@@ -10,7 +10,7 @@ export default function Sidebar() {
     <aside className="sidebar">
 
       <div className="sidebar-logo">
-        <h2>Sweet Crumbs</h2>
+        <h2>Sweet Delicacy</h2>
         <p>Admin Panel</p>
       </div>
 
