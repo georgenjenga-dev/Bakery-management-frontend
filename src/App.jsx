@@ -9,6 +9,7 @@ import AdminEntry from "./components/AdminEntry";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
+import { CartProvider } from "./context/cartcontext";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
 import Contact from "./pages/Contact";
@@ -21,7 +22,29 @@ import AdminInventory from "./pages/admin/AdminInventory";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminSales from "./pages/admin/AdminSales";
 
+
+
 function App() {
+  return (
+    <CartProvider>
+      <>
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+
+        <Footer />
+      </>
+    </CartProvider>
   const location = useLocation();
 
   const isAdminPage = location.pathname.startsWith("/admin");
