@@ -9,7 +9,7 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="logo">
-        <h2> Sweet Crumbs Bakery</h2>
+        <h2> Sweet Delicacy Bakery</h2>
       </div>
 
       <nav className="nav-links">
