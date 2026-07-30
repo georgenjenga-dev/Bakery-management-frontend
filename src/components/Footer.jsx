@@ -6,7 +6,7 @@ function Footer() {
       <div className="footer-container">
 
         <div className="footer-section">
-          <h2> Sweet Crumbs Bakery</h2>
+          <h2> Sweet Delicacy Bakery</h2>
           <p>
             Freshly baked bread, cakes, pastries, and cookies made with love
             every single day.
