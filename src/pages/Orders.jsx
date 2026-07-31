@@ -23,13 +23,17 @@ const Order = () => {
   });
 
   const [showCheckout, setShowCheckout] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('stk');
   const [paymentStatus, setPaymentStatus] = useState('Pending');
+
+  const PAYBILL_NUMBER = '522522';
+  const WHATSAPP_NUMBER = '254769021360';
 
   if (cartItems.length === 0) {
     return (
       <div className="order-page">
         <div className="order-empty">
-          <div className="order-empty-icon">📦</div>
+          <div className="order-empty-icon"></div>
           <h2>No items to order</h2>
           <p>Your cart is empty. Add some cakes first!</p>
           <button className="btn-browse" onClick={() => navigate('/products')}>
@@ -112,7 +116,11 @@ const Order = () => {
     } catch (err) {
       setStatus({
         loading: false,
-        message: err.message || 'Something went wrong. Please try again.',
+        message:
+          err.message.includes('Unable to connect') ||
+          err.message.includes('M-Pesa')
+            ? 'Unable to connect to M-Pesa at the moment. You can alternatively pay using the "Pay with Paybill" option below.'
+            : err.message || 'Something went wrong. Please try again.',
         type: 'error',
       });
     }
@@ -211,98 +219,196 @@ const Order = () => {
               <div className="payment-intro">
                 <div className="payment-icon">💳</div>
                 <h3>Ready to pay?</h3>
-                <p>Click below to complete your order via M-Pesa.</p>
+                <p>Click below to complete your order. You can pay via M-Pesa STK Push or Paybill.</p>
                 <button
                   className="btn-pay-now"
                   onClick={() => setShowCheckout(true)}
                 >
                   Pay Now
                 </button>
+
+                <div className="whatsapp-enquiry-wrapper">
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20Crumbs%20Bakery,%20I%20have%20a%20quick%20enquiry%20about%20my%20order.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-whatsapp-enquiry"
+                  >
+                    <span className="whatsapp-icon">💬</span> WhatsApp Enquiry
+                  </a>
+                </div>
               </div>
             ) : (
-              <form className="checkout-form" onSubmit={handlePayment}>
-                <h3>M-Pesa Checkout</h3>
-                
-                <div className="form-group">
-                  <label htmlFor="fullName">Full Name</label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    placeholder="Kosh Tullo"
-                    required
-                  />
+              <div className="checkout-wrapper">
+                <div className="payment-method-selector">
+                  <button
+                    type="button"
+                    className={`method-btn ${paymentMethod === 'stk' ? 'method-active' : ''}`}
+                    onClick={() => {
+                      setPaymentMethod('stk');
+                      setStatus({ loading: false, message: '', type: '' });
+                    }}
+                  >
+                    M-Pesa STK Push
+                  </button>
+                  <button
+                    type="button"
+                    className={`method-btn ${paymentMethod === 'paybill' ? 'method-active' : ''}`}
+                    onClick={() => {
+                      setPaymentMethod('paybill');
+                      setStatus({ loading: false, message: '', type: '' });
+                    }}
+                  >
+                    Pay with Paybill
+                  </button>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email Address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="kosh@gmail.com"
-                    required
-                  />
-                </div>
+                {paymentMethod === 'stk' ? (
+                  <form className="checkout-form" onSubmit={handlePayment}>
+                    <h3>M-Pesa Checkout</h3>
 
-                <div className="form-group">
-                  <label htmlFor="deliveryAddress">Delivery Address</label>
-                  <textarea
-                    id="deliveryAddress"
-                    name="deliveryAddress"
-                    value={formData.deliveryAddress}
-                    onChange={handleInputChange}
-                    placeholder="20 Ngong Road, Nairobi"
-                    rows="3"
-                    required
-                  />
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="fullName">Full Name</label>
+                      <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        placeholder="Kosh Tullo"
+                        required
+                      />
+                    </div>
 
-                <div className="form-group">
-                  <label htmlFor="phoneNumber">M-Pesa Phone Number</label>
-                  <input
-                    type="tel"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleInputChange}
-                    placeholder="0769000350"
-                    required
-                  />
-                  <small>E.g 0769000350 or +254769000350</small>
-                </div>
+                    <div className="form-group">
+                      <label htmlFor="email">Email Address</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="kosh@gmail.com"
+                        required
+                      />
+                    </div>
 
-                {status.message && (
-                  <div className={`alert alert-${status.type}`}>
-                    {status.loading && <span className="spinner"></span>}
-                    {status.message}
+                    <div className="form-group">
+                      <label htmlFor="deliveryAddress">Delivery Address</label>
+                      <textarea
+                        id="deliveryAddress"
+                        name="deliveryAddress"
+                        value={formData.deliveryAddress}
+                        onChange={handleInputChange}
+                        placeholder="20 Ngong Road, Nairobi"
+                        rows="3"
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="phoneNumber">M-Pesa Phone Number</label>
+                      <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleInputChange}
+                        placeholder="0769000350"
+                        required
+                      />
+                      <small>E.g 0769000350 or +254769000350</small>
+                    </div>
+
+                    {status.message && (
+                      <div className={`alert alert-${status.type}`}>
+                        {status.loading && <span className="spinner"></span>}
+                        {status.message}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      className="btn-pay-now"
+                      disabled={status.loading}
+                    >
+                      {status.loading ? 'Processing...' : 'Confirm Payment'}
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn-cancel"
+                      onClick={() => {
+                        setShowCheckout(false);
+                        setStatus({ loading: false, message: '', type: '' });
+                      }}
+                      disabled={status.loading}
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                ) : (
+                  <div className="paybill-view">
+                    <h3>Pay with Paybill</h3>
+
+                    <div className="paybill-details">
+                      <div className="paybill-info-row">
+                        <span className="paybill-label">Paybill Number</span>
+                        <span className="paybill-value">{PAYBILL_NUMBER}</span>
+                      </div>
+                      <div className="paybill-info-row">
+                        <span className="paybill-label">Account Number</span>
+                        <span className="paybill-value">{formData.fullName || 'Your Name'}</span>
+                      </div>
+                      <div className="paybill-info-row">
+                        <span className="paybill-label">Amount</span>
+                        <span className="paybill-value">KES {totalPrice.toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    <div className="paybill-instructions">
+                      <h4>How to pay:</h4>
+                      <ol>
+                        <li>Go to your M-Pesa menu (Safaricom App or SIM)</li>
+                        <li>Select <strong>Lipa na M-Pesa</strong></li>
+                        <li>Select <strong>Pay Bill</strong></li>
+                        <li>Enter Paybill: <strong>{PAYBILL_NUMBER}</strong></li>
+                        <li>Enter Account: <strong>{formData.fullName || 'Your Name'}</strong></li>
+                        <li>Enter Amount: <strong>KES {totalPrice.toLocaleString()}</strong></li>
+                        <li>Enter M-Pesa PIN and confirm</li>
+                      </ol>
+                    </div>
+
+                    <div className="paybill-note">
+                      <strong>Note:</strong> After completing the payment, please send the
+                      M-Pesa confirmation code (e.g. MXXXXX) via WhatsApp so we can
+                      verify and process your order quickly.
+                    </div>
+
+                    <div className="paybill-actions">
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20Crumbs%20Bakery,%20I%20just%20made%20a%20paybill%20payment%20for%20my%20order.%20Here%20is%20my%20confirmation%20code:%20`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-whatsapp-send"
+                      >
+                        <span className="whatsapp-icon">💬</span> Send Payment Proof on WhatsApp
+                      </a>
+
+                      <button
+                        type="button"
+                        className="btn-cancel"
+                        onClick={() => {
+                          setShowCheckout(false);
+                          setStatus({ loading: false, message: '', type: '' });
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 )}
-
-                <button
-                  type="submit"
-                  className="btn-pay-now"
-                  disabled={status.loading}
-                >
-                  {status.loading ? 'Processing...' : 'Confirm Payment'}
-                </button>
-
-                <button
-                  type="button"
-                  className="btn-cancel"
-                  onClick={() => {
-                    setShowCheckout(false);
-                    setStatus({ loading: false, message: '', type: '' });
-                  }}
-                  disabled={status.loading}
-                >
-                  Cancel
-                </button>
-              </form>
+              </div>
             )}
           </div>
         </div>
