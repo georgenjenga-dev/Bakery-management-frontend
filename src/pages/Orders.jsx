@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/cartcontext';
 import './Order.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const rawUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || 'https://bakery-management-backend.onrender.com';
+const API_BASE_URL = rawUrl.replace(/\/+$/, '').replace(/\/api$/, '');
+
 
 const Order = () => {
   const { cartItems, totalPrice, clearCart } = useCart();
