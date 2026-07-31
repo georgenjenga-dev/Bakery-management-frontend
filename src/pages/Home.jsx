@@ -56,7 +56,7 @@ function Home() {
 
       {/* About Section */}
       <section className="about">
-        <h2>Why Choose Sweet Crumbs?</h2>
+        <h2>Why Choose Sweet Delicacy?</h2>
 
         <p>
           We believe every bite should be memorable. Our skilled bakers prepare

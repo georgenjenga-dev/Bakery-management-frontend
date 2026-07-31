@@ -4,7 +4,7 @@ function Contact() {
   return (
     <div className="contact-page">
       <div className="contact-header">
-        <h1>Contact Sweet Crumbs Bakery</h1>
+        <h1>Contact Sweet Delicacy Bakery</h1>
         <p>
           We'd love to hear from you! Whether you have a question, want to place
           a custom cake order, or simply want to say hello, we're here to help.
@@ -62,7 +62,7 @@ function Contact() {
 
           <div className="info-box">
             <h3>✉ Email</h3>
-            <p>info@sweetcrumbsbakery.com</p>
+            <p>info@sweetdelicacybakery.com</p>
           </div>
 
           <div className="info-box">
