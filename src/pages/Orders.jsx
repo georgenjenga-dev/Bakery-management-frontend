@@ -217,7 +217,7 @@ const Order = () => {
           <div className="payment-section">
             {!showCheckout ? (
               <div className="payment-intro">
-                <div className="payment-icon">💳</div>
+                <div className="payment-icon"></div>
                 <h3>Ready to pay?</h3>
                 <p>Click below to complete your order. You can pay via M-Pesa STK Push or Paybill.</p>
                 <button
@@ -229,12 +229,12 @@ const Order = () => {
 
                 <div className="whatsapp-enquiry-wrapper">
                   <a
-                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20Crumbs%20Bakery,%20I%20have%20a%20quick%20enquiry%20about%20my%20order.`}
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20delicacy%20Bakery,%20I%20have%20a%20quick%20enquiry%20about%20my%20order.`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-whatsapp-enquiry"
                   >
-                    <span className="whatsapp-icon">💬</span> WhatsApp Enquiry
+                    <span className="whatsapp-icon">...</span> WhatsApp Enquiry
                   </a>
                 </div>
               </div>
@@ -387,12 +387,12 @@ const Order = () => {
 
                     <div className="paybill-actions">
                       <a
-                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20Crumbs%20Bakery,%20I%20just%20made%20a%20paybill%20payment%20for%20my%20order.%20Here%20is%20my%20confirmation%20code:%20`}
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=Hi%20Sweet%20delicasy%20Bakery,%20I%20just%20made%20a%20paybill%20payment%20for%20my%20order.%20Here%20is%20my%20confirmation%20code:%20`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-whatsapp-send"
                       >
-                        <span className="whatsapp-icon">💬</span> Send Payment Proof on WhatsApp
+                        <span className="whatsapp-icon">...</span> Send Payment Confirmation on WhatsApp
                       </a>
 
                       <button
