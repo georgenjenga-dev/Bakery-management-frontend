@@ -6,7 +6,7 @@ function Footer() {
       <div className="footer-container">
 
         <div className="footer-section">
-          <h2> Sweet Crumbs Bakery</h2>
+          <h2> Sweet Delicacy Bakery</h2>
           <p>
             Freshly baked bread, cakes, pastries, and cookies made with love
             every single day.
@@ -27,7 +27,7 @@ function Footer() {
 
           <p> Nairobi, Kenya</p>
           <p> +254 716 323 929</p>
-          <p>info@sweetcrumbs.com</p>
+          <p>info@sweetdelicacy.com</p>
         </div>
 
         <div className="footer-section">
@@ -48,7 +48,7 @@ function Footer() {
       <hr />
 
       <div className="footer-bottom">
-        <p>© 2026 Sweet Crumbs Bakery. All Rights Reserved.</p>
+        <p>© 2026 Sweet Delicacy Bakery. All Rights Reserved.</p>
       </div>
     </footer>
   );
