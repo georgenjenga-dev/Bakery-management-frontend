@@ -31,7 +31,7 @@ function Home() {
               alt="Chocolate Cake"
             />
             <h3>Chocolate Cake</h3>
-            <p>1800</p>
+            <p>1800KSH</p>
           </div>
 
           <div className="product-card">
@@ -40,7 +40,7 @@ function Home() {
               alt="Fresh Bread"
             />
             <h3>Fresh Bread</h3>
-            <p>60</p>
+            <p>60KSH</p>
           </div>
 
           <div className="product-card">
@@ -49,7 +49,7 @@ function Home() {
               alt="Croissant"
             />
             <h3>Croissant</h3>
-            <p>1500</p>
+            <p>1500KSH</p>
           </div>
         </div>
       </section>

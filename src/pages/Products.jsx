@@ -48,7 +48,7 @@ function Products() {
     {
       id: 6,
       name: "Cookies",
-      price: 10,
+      price: 100,
       image:
         "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=600",
       description: "Crunchy chocolate chip cookies baked daily."
@@ -70,7 +70,7 @@ function Products() {
 
               <p>{product.description}</p>
 
-              <h3>${product.price.toFixed(2)}</h3>
+              <h3>KSH{product.price.toFixed(2)}</h3>
 
               <button type="button" onClick={() => addToCart(product)}>
                 Add to Cart
