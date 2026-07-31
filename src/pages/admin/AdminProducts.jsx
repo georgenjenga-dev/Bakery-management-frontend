@@ -30,11 +30,25 @@ export default function AdminProducts() {
     },
   ]);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
   const [showDelete, setShowDelete] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const filteredProducts = products.filter((product) => {
+    const search = searchTerm.toLowerCase();
+
+    return (
+      product.name.toLowerCase().includes(search) ||
+      product.category.toLowerCase().includes(search) ||
+      product.price.toString().includes(search) ||
+      product.stock.toString().includes(search) ||
+      product.id.toString().includes(search)
+    );
+  });
 
   const handleAddProduct = () => {
     setEditingProduct(null);
@@ -86,6 +100,7 @@ export default function AdminProducts() {
 
   return (
     <AdminLayout title="Products Management">
+
       <div className="products-header">
         <div>
           <h1>Products Management</h1>
@@ -103,12 +118,14 @@ export default function AdminProducts() {
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search product..."
+          placeholder="Search by ID, name, category, price or stock..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
       <ProductTable
-        products={products}
+        products={filteredProducts}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
@@ -126,7 +143,8 @@ export default function AdminProducts() {
 
       {showDelete && (
         <DeleteModal
-          product={selectedProduct}
+          isOpen={showDelete}
+          itemName={selectedProduct?.name}
           onConfirm={confirmDelete}
           onClose={() => {
             setShowDelete(false);
@@ -134,6 +152,7 @@ export default function AdminProducts() {
           }}
         />
       )}
+
     </AdminLayout>
   );
 }
