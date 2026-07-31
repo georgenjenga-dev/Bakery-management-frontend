@@ -25,10 +25,14 @@ import AdminSales from "./pages/admin/AdminSales";
 
 
 function App() {
+  const location = useLocation();
+
+  const isAdminPage = location.pathname.startsWith("/admin");
+
   return (
     <CartProvider>
       <>
-        <Navbar />
+        {!isAdminPage && <Navbar />}
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -36,82 +40,60 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+
+          <Route path="/admin" element={<AdminEntry />} />
+          <Route path="/admin/login" element={<Login />} />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedRoute>
+                <AdminProducts />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/inventory"
+            element={
+              <ProtectedRoute>
+                <AdminInventory />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedRoute>
+                <AdminOrders />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/sales"
+            element={
+              <ProtectedRoute>
+                <AdminSales />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
 
-        <Footer />
+        {!isAdminPage && <Footer />}
       </>
     </CartProvider>
-  const location = useLocation();
-
-  const isAdminPage = location.pathname.startsWith("/admin");
-
-  return (
-    <>
-      {!isAdminPage && <Navbar />}
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/contact" element={<Contact />} />
-
-        <Route path="/admin" element={<AdminEntry />} />
-        <Route path="/admin/login" element={<Login />} />
-
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin/products"
-          element={
-            <ProtectedRoute>
-              <AdminProducts />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin/inventory"
-          element={
-            <ProtectedRoute>
-              <AdminInventory />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin/orders"
-          element={
-            <ProtectedRoute>
-              <AdminOrders />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/admin/sales"
-          element={
-            <ProtectedRoute>
-              <AdminSales />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-
-      {!isAdminPage && <Footer />}
-    </>
   );
 }
 
