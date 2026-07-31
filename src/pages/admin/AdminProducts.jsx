@@ -1,52 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "../../components/admin/AdminLayout";
 import ProductTable from "../../components/admin/ProductTable";
 import ProductForm from "../../components/admin/ProductForm";
 import DeleteModal from "../../components/admin/DeleteModal";
+import api from "../../api/axiosConfig";
 import "./AdminProducts.css";
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Chocolate Cake",
-      category: "Cake",
-      price: 2500,
-      stock: 12,
-    },
-    {
-      id: 2,
-      name: "Vanilla Cupcake",
-      category: "Cupcake",
-      price: 300,
-      stock: 20,
-    },
-    {
-      id: 3,
-      name: "Croissant",
-      category: "Pastry",
-      price: 180,
-      stock: 0,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-
   const [showDelete, setShowDelete] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get("/products");
+      const rawData = res.data?.data || res.data;
+      setProducts(Array.isArray(rawData) ? rawData : []);
+    } catch (err) {
+      console.error("Error fetching admin products:", err);
+      setError("Failed to fetch products from API.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
   const filteredProducts = products.filter((product) => {
     const search = searchTerm.toLowerCase();
-
     return (
-      product.name.toLowerCase().includes(search) ||
-      product.category.toLowerCase().includes(search) ||
-      product.price.toString().includes(search) ||
-      product.stock.toString().includes(search) ||
-      product.id.toString().includes(search)
+      (product.name || "").toLowerCase().includes(search) ||
+      (product.category || "").toLowerCase().includes(search) ||
+      (product.price || "").toString().includes(search) ||
+      (product.stock || "").toString().includes(search) ||
+      (product.id || "").toString().includes(search)
     );
   });
 
@@ -65,37 +61,44 @@ export default function AdminProducts() {
     setShowDelete(true);
   };
 
-  const handleSaveProduct = (productData) => {
-    if (editingProduct) {
-      setProducts(
-        products.map((product) =>
-          product.id === editingProduct.id
-            ? { ...product, ...productData }
-            : product
-        )
-      );
-    } else {
-      const newProduct = {
-        id: Date.now(),
-        ...productData,
+  const handleSaveProduct = async (productData) => {
+    try {
+      const payload = {
+        name: productData.name,
+        description: productData.description || "",
+        price: parseFloat(productData.price),
+        stock: parseInt(productData.stock, 10),
+        category: productData.category || "General",
+        image: productData.image || ""
       };
 
-      setProducts([...products, newProduct]);
+      if (editingProduct) {
+        await api.put(`/products/${editingProduct.id}`, payload);
+      } else {
+        await api.post("/products", payload);
+      }
+      await fetchProducts();
+    } catch (err) {
+      console.error("Failed to save product:", err);
+      alert(err.response?.data?.message || err.response?.data?.error || "Failed to save product.");
+    } finally {
+      setShowForm(false);
+      setEditingProduct(null);
     }
-
-    setShowForm(false);
-    setEditingProduct(null);
   };
 
-  const confirmDelete = () => {
-    setProducts(
-      products.filter(
-        (product) => product.id !== selectedProduct.id
-      )
-    );
-
-    setShowDelete(false);
-    setSelectedProduct(null);
+  const confirmDelete = async () => {
+    if (!selectedProduct) return;
+    try {
+      await api.delete(`/products/${selectedProduct.id}`);
+      await fetchProducts();
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+      alert(err.response?.data?.message || "Failed to delete product.");
+    } finally {
+      setShowDelete(false);
+      setSelectedProduct(null);
+    }
   };
 
   return (
@@ -115,6 +118,8 @@ export default function AdminProducts() {
         </button>
       </div>
 
+      {error && <div style={{ color: "#d9534f", marginBottom: "1rem" }}>{error}</div>}
+
       <div className="search-container">
         <input
           type="text"
@@ -124,11 +129,15 @@ export default function AdminProducts() {
         />
       </div>
 
-      <ProductTable
-        products={filteredProducts}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      {loading ? (
+        <div style={{ textAlign: "center", padding: "2rem" }}>Loading products...</div>
+      ) : (
+        <ProductTable
+          products={filteredProducts}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
 
       {showForm && (
         <ProductForm
